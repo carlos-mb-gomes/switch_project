@@ -1,0 +1,97 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Aug  7 17:40:18 2024
+[*]
+[dumpfile] "/home/cgomes/repos/cgomes_repo/final_version_switch/switch.vcd"
+[dumpfile_mtime] "Wed Aug  7 17:35:23 2024"
+[dumpfile_size] 847414
+[savefile] "/home/cgomes/repos/cgomes_repo/final_version_switch/filters/testbench_all.gtkw"
+[timestart] 65370000
+[size] 1268 951
+[pos] -1409 -52
+*-24.000000 151540000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_switch.
+[treeopen] tb_switch.top_module.
+[sst_width] 214
+[signals_width] 382
+[sst_expanded] 1
+[sst_vpaned_height] 145
+@28
+tb_switch.top_module.vl.clk
+tb_switch.top_module.o_ready
+tb_switch.top_module.i_valid
+tb_switch.top_module.i_last
+tb_switch.top_module.i_ready
+tb_switch.top_module.o_valid
+tb_switch.top_module.o_last
+tb_switch.top_module.reset
+@22
+tb_switch.top_module.i_ports[4:0]
+tb_switch.top_module.i_data[7:0]
+@200
+-
+@22
+tb_switch.top_module.hm.o_packet_length[15:0]
+tb_switch.top_module.hm.o_checksum[15:0]
+tb_switch.top_module.hm.o_seqnum[31:0]
+tb_switch.top_module.hm.o_flag[7:0]
+tb_switch.top_module.hm.o_protocol[7:0]
+tb_switch.top_module.hm.o_dummy[15:0]
+tb_switch.top_module.hm.o_source_address[15:0]
+tb_switch.top_module.hm.o_destination_address[15:0]
+@28
+tb_switch.top_module.hm.o_start_payload
+@22
+tb_switch.top_module.pl.o_payload[3839:0]
+@420
+tb_switch.top_module.pl.o_payload_length
+@22
+tb_switch.top_module.pl.o_sum_payload[31:0]
+@28
+tb_switch.top_module.vl.i_start_validation_from_header
+tb_switch.top_module.vl.i_start_validation_from_payload
+@200
+-
+@22
+tb_switch.top_module.vl.i_sum_without_checksum_without_payload[31:0]
+tb_switch.top_module.vl.i_checksum[31:0]
+tb_switch.top_module.vl.i_sum_payload[31:0]
+tb_switch.top_module.vl.r_sum_without_checksum_next[31:0]
+tb_switch.top_module.vl.r_sum_without_checksum_reg[31:0]
+tb_switch.top_module.vl.r_sum_32_next[31:0]
+tb_switch.top_module.vl.r_sum_32_reg[31:0]
+tb_switch.top_module.vl.r_sum_16_next[15:0]
+tb_switch.top_module.vl.r_sum_16_reg[15:0]
+tb_switch.top_module.w_waited_checksum[15:0]
+@28
+tb_switch.top_module.vl.o_checksum_error
+@200
+-
+@22
+tb_switch.top_module.vl.i_packet_length[15:0]
+@420
+tb_switch.top_module.vl.i_payload_length
+@28
+tb_switch.top_module.vl.o_payload_length_error
+@200
+-
+@23
+tb_switch.top_module.rt.i_flag[7:0]
+@22
+tb_switch.top_module.rt.r_seqnum_1_next[31:0]
+tb_switch.top_module.rt.r_seqnum_1_reg[31:0]
+tb_switch.top_module.rt.r_source_address_1_next[15:0]
+tb_switch.top_module.rt.r_source_address_1_reg[15:0]
+@28
+tb_switch.top_module.rt.r_port_1_next
+tb_switch.top_module.rt.r_port_1_reg
+@22
+tb_switch.top_module.rt.r_seqnum_2_next[31:0]
+tb_switch.top_module.rt.r_seqnum_2_reg[31:0]
+tb_switch.top_module.rt.r_source_address_2_next[15:0]
+tb_switch.top_module.rt.r_source_address_2_reg[15:0]
+@28
+tb_switch.top_module.rt.r_port_2_next
+tb_switch.top_module.rt.r_port_2_reg
+[pattern_trace] 1
+[pattern_trace] 0

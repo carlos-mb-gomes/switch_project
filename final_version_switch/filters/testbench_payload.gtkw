@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Aug  6 18:24:46 2024
+[*]
+[dumpfile] "/home/cgomes/repos/cgomes_repo/final_version_switch/switch.vcd"
+[dumpfile_mtime] "Tue Aug  6 18:23:25 2024"
+[dumpfile_size] 977425
+[savefile] "/home/cgomes/repos/cgomes_repo/final_version_switch/filters/testbench_payload.gtkw"
+[timestart] 0
+[size] 1268 951
+[pos] -1318 -272
+*-24.000000 39670000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_switch.
+[treeopen] tb_switch.top_module.
+[sst_width] 214
+[signals_width] 246
+[sst_expanded] 1
+[sst_vpaned_height] 275
+@28
+tb_switch.top_module.clk
+@22
+tb_switch.top_module.i_ports[4:0]
+tb_switch.top_module.i_data[7:0]
+@28
+tb_switch.top_module.o_ready
+tb_switch.top_module.i_valid
+tb_switch.top_module.i_last
+@23
+tb_switch.top_module.pl.o_payload[3839:0]
+@420
+tb_switch.top_module.pl.o_payload_length
+@22
+tb_switch.top_module.pl.o_sum_payload[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

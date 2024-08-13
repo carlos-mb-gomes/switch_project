@@ -1,0 +1,55 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Fri Aug  2 19:49:50 2024
+[*]
+[dumpfile] "/home/cgomes/repos/cgomes_repo/switch_projects/switch.vcd"
+[dumpfile_mtime] "Fri Aug  2 19:47:54 2024"
+[dumpfile_size] 1202690
+[savefile] "/home/cgomes/repos/cgomes_repo/switch_projects/testbenchs/testbench_validation.gtkw"
+[timestart] 418350000
+[size] 1268 951
+[pos] -1765 -85
+*-24.000000 437020000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_switch.
+[treeopen] tb_switch.top_module.
+[treeopen] tb_switch.top_module.header_module.
+[sst_width] 214
+[signals_width] 382
+[sst_expanded] 1
+[sst_vpaned_height] 579
+@28
+tb_switch.top_module.header_module.validation_module.clk
+tb_switch.top_module.header_module.validation_module.o_ready
+tb_switch.top_module.header_module.validation_module.i_valid
+tb_switch.top_module.header_module.validation_module.i_last
+tb_switch.top_module.header_module.validation_module.i_ready
+tb_switch.top_module.header_module.validation_module.o_valid
+tb_switch.top_module.header_module.validation_module.o_last
+@200
+-
+@22
+tb_switch.top_module.header_module.validation_module.i_checksum[31:0]
+tb_switch.top_module.header_module.validation_module.i_sum_without_checksum_without_payload[31:0]
+tb_switch.top_module.header_module.validation_module.i_sum_payload[31:0]
+@23
+tb_switch.top_module.header_module.validation_module.r_sum_without_checksum_next[31:0]
+@22
+tb_switch.top_module.header_module.validation_module.r_sum_without_checksum_reg[31:0]
+tb_switch.top_module.header_module.validation_module.r_sum_32_next[31:0]
+tb_switch.top_module.header_module.validation_module.r_sum_32_reg[31:0]
+tb_switch.top_module.header_module.validation_module.r_sum_16_next[15:0]
+tb_switch.top_module.header_module.validation_module.r_sum_16_reg[15:0]
+tb_switch.top_module.header_module.validation_module.o_waited_checksum[15:0]
+@200
+-
+@22
+tb_switch.top_module.header_module.validation_module.i_packet_length[15:0]
+@420
+tb_switch.top_module.header_module.validation_module.i_payload_length
+@28
+tb_switch.top_module.header_module.validation_module.o_payload_length_error
+@420
+tb_switch.top_module.header_module.w_payload_length
+tb_switch.top_module.header_module.payload_module.o_payload_length
+[pattern_trace] 1
+[pattern_trace] 0

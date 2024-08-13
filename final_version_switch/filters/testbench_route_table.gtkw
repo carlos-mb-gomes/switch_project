@@ -1,0 +1,61 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Aug 13 18:24:49 2024
+[*]
+[dumpfile] "/home/cgomes/repos/cgomes_repo/final_version_switch/switch.vcd"
+[dumpfile_mtime] "Tue Aug 13 18:19:44 2024"
+[dumpfile_size] 8574667
+[savefile] "/home/cgomes/repos/cgomes_repo/final_version_switch/filters/testbench_route_table.gtkw"
+[timestart] 4209760000
+[size] 1268 951
+[pos] -1761 -116
+*-24.000000 692350000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_switch.
+[treeopen] tb_switch.top_module.
+[sst_width] 214
+[signals_width] 358
+[sst_expanded] 1
+[sst_vpaned_height] 579
+@28
+tb_switch.top_module.clk
+tb_switch.top_module.o_ready
+tb_switch.top_module.i_valid
+tb_switch.top_module.i_last
+tb_switch.top_module.i_ready
+tb_switch.top_module.o_valid
+tb_switch.top_module.o_last
+tb_switch.top_module.reset
+@200
+-
+@22
+tb_switch.top_module.i_data[7:0]
+tb_switch.top_module.route_table_module.i_ports[4:0]
+tb_switch.top_module.route_table_module.i_flag[7:0]
+tb_switch.top_module.route_table_module.i_seqnum[31:0]
+tb_switch.top_module.route_table_module.i_source_address[15:0]
+tb_switch.top_module.route_table_module.i_destination_address[15:0]
+tb_switch.top_module.route_table_module.o_waited_seqnum[31:0]
+@28
+tb_switch.top_module.route_table_module.o_seqnum_error
+@22
+tb_switch.top_module.route_table_module.r_seqnum_1_next[31:0]
+tb_switch.top_module.route_table_module.r_seqnum_1_reg[31:0]
+tb_switch.top_module.route_table_module.r_source_address_1_next[15:0]
+tb_switch.top_module.route_table_module.r_source_address_1_reg[15:0]
+tb_switch.top_module.route_table_module.r_check_seqnum_1_next[31:0]
+tb_switch.top_module.route_table_module.r_check_seqnum_1_reg[31:0]
+tb_switch.top_module.route_table_module.r_seqnum_2_next[31:0]
+tb_switch.top_module.route_table_module.r_seqnum_2_reg[31:0]
+tb_switch.top_module.route_table_module.r_source_address_2_next[15:0]
+@23
+tb_switch.top_module.route_table_module.r_source_address_2_reg[15:0]
+@22
+tb_switch.top_module.route_table_module.r_check_seqnum_2_next[31:0]
+tb_switch.top_module.route_table_module.r_check_seqnum_2_reg[31:0]
+@200
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0

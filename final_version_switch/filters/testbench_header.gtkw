@@ -1,0 +1,40 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Aug  6 18:04:18 2024
+[*]
+[dumpfile] "/home/cgomes/repos/cgomes_repo/final_version_switch/switch.vcd"
+[dumpfile_mtime] "Tue Aug  6 18:00:37 2024"
+[dumpfile_size] 897724
+[savefile] "/home/cgomes/repos/cgomes_repo/final_version_switch/filters/testbench_header.gtkw"
+[timestart] 0
+[size] 1268 951
+[pos] -1881 -42
+*-24.000000 39670000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_switch.
+[treeopen] tb_switch.top_module.
+[sst_width] 214
+[signals_width] 246
+[sst_expanded] 1
+[sst_vpaned_height] 275
+@28
+tb_switch.top_module.clk
+@22
+tb_switch.top_module.i_ports[4:0]
+tb_switch.top_module.i_data[7:0]
+@28
+tb_switch.top_module.o_ready
+tb_switch.top_module.i_valid
+tb_switch.top_module.i_last
+@22
+tb_switch.top_module.hm.o_packet_length[15:0]
+tb_switch.top_module.hm.o_checksum[15:0]
+tb_switch.top_module.hm.o_seqnum[31:0]
+tb_switch.top_module.hm.o_flag[7:0]
+tb_switch.top_module.hm.o_protocol[7:0]
+tb_switch.top_module.hm.o_dummy[15:0]
+tb_switch.top_module.hm.o_source_address[15:0]
+tb_switch.top_module.hm.o_destination_address[15:0]
+@29
+tb_switch.top_module.hm.o_start_payload
+[pattern_trace] 1
+[pattern_trace] 0
