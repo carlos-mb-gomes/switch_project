@@ -153,11 +153,6 @@ begin
 
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
 
                 i_ready_signal(i_testbench_clk, i_testbench_ready ,'0');
 
@@ -204,11 +199,6 @@ begin
 
                 i_ready_signal(i_testbench_clk, i_testbench_ready ,'1');
                 
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
 
@@ -274,9 +264,6 @@ begin
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
 
                 i_ready_signal(i_testbench_clk, i_testbench_ready ,'0');
 
@@ -336,10 +323,6 @@ begin
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
 
                 i_ready_signal(i_testbench_clk, i_testbench_ready ,'0');
 
@@ -348,8 +331,6 @@ begin
             -- pacote 5
 
                 i_valid_signal(i_testbench_clk, i_testbench_valid ,'1');
-
-
 
                 input_test_ports <= "00001";
 
@@ -365,7 +346,7 @@ begin
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"00");
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"00");
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"00");
-                clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"03");
+                clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"08");
 
                 -- clpr
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"01"); -- flag
@@ -387,11 +368,6 @@ begin
 
                 i_ready_signal(i_testbench_clk, i_testbench_ready ,'1');
                 
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
 
@@ -445,10 +421,6 @@ begin
 
                 i_ready_signal(i_testbench_clk, i_testbench_ready ,'0');
 
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
-                clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
                 clock_cycle(i_testbench_clk, counter_clk);
 
