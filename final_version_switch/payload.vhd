@@ -52,7 +52,7 @@ begin
         end if;
 
         if rising_edge(clk) and reset = '0' then
-
+            
             payload_state_reg     <= payload_state_next;
             
             payload_reg           <= payload_next;
@@ -88,7 +88,7 @@ begin
                 end if;
 
             when SUM_PAYLOAD => 
-            
+
             when others =>
         end case;
     end process;   

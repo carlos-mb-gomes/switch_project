@@ -84,21 +84,11 @@ begin
            data_reg                          <= data_next;
         end if;
     end process;
-
-    Flag_Error_Attribution_Logic: process(i_packet_length_error,i_seqnum_error, i_destination_address_error, i_checksum_error)
-    begin 
-        flag_error_next <= flag_error_reg;
-
-        if i_start_output = '1' then 
-           flag_error_next <= i_packet_length_error & i_seqnum_error & i_checksum_error & i_destination_address_error & i_flag(7) & i_flag(0);
-        end if;
-    end process;
-
-
     
     Output_Data_State_Attribution_Logic: process(flag_error_reg,data_output_state_reg,data_reg,internal_counter_reg,aux_seqnum_reg,aux_checksum_reg,
     aux_packet_length_reg,i_packet_length,i_expect_packet_length,i_expect_checksum,i_checksum,i_seqnum,i_expect_seqnum,output_valid_reg,w_output_last,
-    i_source_address,i_destination_address,destination_address_to_output_reg,source_address_to_output_reg,flag_error_to_output_reg)
+    i_source_address,i_destination_address,destination_address_to_output_reg,source_address_to_output_reg,flag_error_to_output_reg,i_packet_length_error,
+    i_seqnum_error,i_checksum_error,i_destination_address_error,i_flag,flag_error_reg)
     begin
         internal_counter_next               <= internal_counter_reg;
         aux_packet_length_next              <= aux_packet_length_reg;
@@ -110,14 +100,17 @@ begin
         destination_address_to_output_next  <= destination_address_to_output_reg;
         source_address_to_output_next       <= source_address_to_output_reg;
         flag_error_to_output_next           <= flag_error_to_output_reg;
+        flag_error_next                     <= flag_error_reg;
 
         case data_output_state_reg is
             when IDLE =>
             
             when INITIALIZE_AUX_SIGNAL =>
-                aux_packet_length_next    <= i_expect_packet_length & i_packet_length;
-                aux_checksum_next         <= i_expect_checksum & i_checksum;
-                aux_seqnum_next           <= i_expect_seqnum & i_seqnum;
+                aux_packet_length_next <= i_expect_packet_length & i_packet_length;
+                aux_checksum_next      <= i_expect_checksum & i_checksum;
+                aux_seqnum_next        <= i_expect_seqnum & i_seqnum;
+                flag_error_next        <= i_packet_length_error & i_seqnum_error & i_checksum_error & i_destination_address_error & i_flag(7) & i_flag(0);
+
             when OUTPUT_STATE =>
                 internal_counter_next <= internal_counter_reg + 1;
 

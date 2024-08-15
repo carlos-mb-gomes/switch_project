@@ -83,7 +83,7 @@ begin
     end process;
     
 
-    Checksum_State_Attribution_Logic: process(i_ready, i_checksum,i_sum_without_checksum_without_payload,i_sum_payload,checksum_state_reg,
+    Checksum_State_Attribution_Logic: process(i_ready, i_valid,start_output_reg, i_checksum,i_sum_without_checksum_without_payload,i_sum_payload,checksum_state_reg,
     sum_without_checksum_reg, sum_32bits_reg, sum_16bits_reg, expected_checksum_reg, payload_length_error_reg, checksum_error_reg)
     begin
         sum_payload_next          <= sum_payload_reg;
@@ -92,10 +92,15 @@ begin
         sum_16bits_next           <= sum_16bits_reg;
         expected_checksum_next    <= expected_checksum_reg;
         checksum_error_next       <= checksum_error_reg;
+        start_output_next         <= start_output_reg;
 
         
             case checksum_state_reg is
                 when IDLE =>
+                    if i_valid = '1' then
+                        start_output_next <= '0';
+                    end if;
+
                     if (i_start_validation_from_header = '1' or i_start_validation_from_payload = '1') and i_ready = '1' then
                         sum_payload_next <= i_sum_payload;
                     end if;
@@ -113,30 +118,27 @@ begin
                     if (sum_16bits_reg = x"FFFF") then
                         expected_checksum_next <= i_checksum(15 downto 0);
                     end if;
+                    start_output_next <= '1';
 
                 when CALC_WAITED_CHECKSUM =>
                     sum_16bits_next <= sum_without_checksum_reg(31 downto 16) + sum_without_checksum_reg(15 downto 0);
 
                 when VALUE_WAITED =>
                     expected_checksum_next <= not sum_16bits_reg;
-                    checksum_error_next <= '1';
+                    checksum_error_next    <= '1';
+                    start_output_next      <= '1';
 
                 when others =>
             end case;
     end process;
 
-    Checksum_State_Transition_Logic: process(i_valid,i_ready, i_start_validation_from_header,i_start_validation_from_payload, sum_16bits_reg,
+    Checksum_State_Transition_Logic: process(i_ready, i_start_validation_from_header,i_start_validation_from_payload, sum_16bits_reg,
     checksum_state_reg,start_output_reg)
     begin
         checksum_state_next <= checksum_state_reg;
-        start_output_next <= start_output_reg;
 
         case checksum_state_reg is
             when IDLE =>
-                if i_valid = '1' then
-                    start_output_next <= '0';
-                end if;
-
                 if (i_start_validation_from_header = '1' or i_start_validation_from_payload = '1') and i_ready = '1' then
                     checksum_state_next <= SUM_WITHOUT_CHECKSUM;
                 end if;
@@ -154,7 +156,7 @@ begin
                 if (sum_16bits_reg /= x"FFFF") then
                     checksum_state_next <= CALC_WAITED_CHECKSUM;
                 end if;
-                start_output_next <= '1';
+
                 if (reset = '1') then
                     checksum_state_next <=  IDLE;
                 end if;
@@ -163,7 +165,6 @@ begin
                 checksum_state_next <= VALUE_WAITED;
 
             when VALUE_WAITED =>
-                start_output_next <= '1';
 
             when others =>
         end case;

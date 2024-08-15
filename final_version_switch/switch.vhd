@@ -297,6 +297,7 @@ begin
         if rising_edge(clk) then
            output_ready_reg <= output_ready_next;
            start_output_reg <= start_output_next;
+           
         end if;
     end process;
 

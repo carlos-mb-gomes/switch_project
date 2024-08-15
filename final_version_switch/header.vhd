@@ -102,11 +102,7 @@ begin
     State_Transition_Logic: process(header_state_reg,internal_counter_reg, i_valid, i_last)
     begin
 
-        -- Initialize values
         header_state_next     <= header_state_reg;
-        internal_counter_next <= internal_counter_reg; 
-        start_validation_next <= start_validation_reg;
-        start_payload_next    <= start_payload_reg;
 
         case header_state_reg is
             when IDLE =>
@@ -115,72 +111,45 @@ begin
                 end if;
 
             when PACKET_LENGTH =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH) then
                     header_state_next     <= CHECKSUM;
-                    internal_counter_next <= 0;
                 end if;
 
             when CHECKSUM =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH) then
                     header_state_next     <= SEQNUM;
-                    internal_counter_next <= 0;
                 end if;
 
             when SEQNUM =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH+2) then
                     header_state_next     <= FLAG;
-                    internal_counter_next <= 0;
                 end if;
 
             when FLAG =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH-1) then
                     header_state_next     <= PROTOCOL;
-                    internal_counter_next <= 0;
                 end if;
 
             when PROTOCOL =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH-1) then 
                     header_state_next     <= DUMMY;  
-                    internal_counter_next <= 0;
                 end if;
 
             when DUMMY =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH) then
                     header_state_next     <= SOURCE_ADDRESS;
-                    internal_counter_next <= 0;
                 end if;
 
             when SOURCE_ADDRESS =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH) then
                     header_state_next     <= DESTINATION_ADDRESS;
-                    internal_counter_next <= 0;
                 end if;
 
             when DESTINATION_ADDRESS =>
-                internal_counter_next <= internal_counter_reg + 1;
-
                 if (internal_counter_reg = c_WIDTH and i_last = '0' and i_valid = '1') then
                     header_state_next     <= END_HEADER;
-                    internal_counter_next <= 0;
-                    start_payload_next    <= '1';
                 elsif (internal_counter_reg = c_WIDTH and i_last = '1' and i_valid = '1') then
                     header_state_next     <= END_HEADER;
-                    internal_counter_next <= 0;
-                    start_validation_next <= '1';
                 end if;
 
             when END_HEADER =>
@@ -192,11 +161,13 @@ begin
         end case;
     end process;
 
-    State_Attribution_Logic: process(i_byte,header_state_reg, packet_length_reg,checksum_reg,seqnum_reg,flag_reg,protocol_reg,dummy_reg,source_address_reg,
-    destination_address_reg)
+    State_Attribution_Logic: process(i_byte,internal_counter_reg,header_state_reg, packet_length_reg,checksum_reg,seqnum_reg,flag_reg,protocol_reg,dummy_reg,source_address_reg,
+    destination_address_reg,sum_without_checksum_without_payload_reg,checksum_converted_32bits_reg,start_validation_reg,start_payload_reg)
     begin
         
-        -- Initialize values
+        internal_counter_next                      <= internal_counter_reg; 
+        start_validation_next                      <= start_validation_reg;
+        start_payload_next                         <= start_payload_reg;
         packet_length_next                         <= packet_length_reg;
         checksum_next                              <= checksum_reg;
         seqnum_next                                <= seqnum_reg;
@@ -212,28 +183,64 @@ begin
             when IDLE =>
 
             when PACKET_LENGTH =>
+                internal_counter_next <= internal_counter_reg + 1;
                 packet_length_next <= packet_length_reg(7 downto 0) & i_byte;
+                if (internal_counter_reg = c_WIDTH) then
+                    internal_counter_next <= 0;
+                end if;
 
             when CHECKSUM =>
+                internal_counter_next <= internal_counter_reg + 1;
                 checksum_next <= checksum_reg(7 downto 0) & i_byte;
+                if (internal_counter_reg = c_WIDTH) then
+                    internal_counter_next <= 0;
+                end if;
 
             when SEQNUM =>
+                internal_counter_next <= internal_counter_reg + 1;
                 seqnum_next <= seqnum_reg(23 downto 0) & i_byte;
+                if (internal_counter_reg = c_WIDTH+2) then
+                    internal_counter_next <= 0;
+                end if;
 
             when FLAG =>
+                internal_counter_next <= internal_counter_reg + 1;
                 flag_next <= i_byte;
+                if (internal_counter_reg = c_WIDTH-1) then
+                    internal_counter_next <= 0;
+                end if;
 
             when PROTOCOL =>
+                internal_counter_next <= internal_counter_reg + 1;
                 protocol_next <= i_byte;
+                if (internal_counter_reg = c_WIDTH-1) then 
+                    internal_counter_next <= 0;
+                end if;
 
             when DUMMY =>
+                internal_counter_next <= internal_counter_reg + 1;
                 dummy_next <= dummy_reg(7 downto 0) & i_byte;
+                if (internal_counter_reg = c_WIDTH) then
+                    internal_counter_next <= 0;
+                end if;
 
             when SOURCE_ADDRESS =>
+                internal_counter_next <= internal_counter_reg + 1;
                 source_address_next <= source_address_reg(7 downto 0) & i_byte;
+                if (internal_counter_reg = c_WIDTH) then
+                    internal_counter_next <= 0;
+                end if;
 
             when DESTINATION_ADDRESS =>
+                internal_counter_next <= internal_counter_reg + 1;
                 destination_address_next <= destination_address_reg(7 downto 0) & i_byte;
+                if (internal_counter_reg = c_WIDTH and i_last = '0' and i_valid = '1') then
+                    internal_counter_next <= 0;
+                    start_payload_next    <= '1';
+                elsif (internal_counter_reg = c_WIDTH and i_last = '1' and i_valid = '1') then
+                    internal_counter_next <= 0;
+                    start_validation_next <= '1';
+                end if;
 
             when END_HEADER =>
                 sum_without_checksum_without_payload_next <= (w_extended_part(15 downto 0) & unsigned(packet_length_reg)) 
@@ -250,8 +257,6 @@ begin
         end case;  
     end process;
 
-    -- Output Atualization
-    -- header fields
     o_packet_length                         <= packet_length_reg;
     o_checksum                              <= checksum_reg;
     o_seqnum                                <= seqnum_reg;
@@ -261,12 +266,10 @@ begin
     o_source_address                        <= source_address_reg;
     o_destination_address                   <= destination_address_reg;
 
-    -- aux validation
     o_sum_without_checksum_without_payload  <= sum_without_checksum_without_payload_reg;
     o_checksum_32bits                       <= checksum_converted_32bits_reg;
     o_start_validation                      <= start_validation_reg;
     
-    -- aux payload
     o_start_payload                         <= start_payload_reg;
     
 
