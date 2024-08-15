@@ -1,0 +1,46 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Aug 14 20:55:55 2024
+[*]
+[dumpfile] "/home/cgomes/repos/cgomes_repo/final_version_switch/switch.vcd"
+[dumpfile_mtime] "Wed Aug 14 20:54:01 2024"
+[dumpfile_size] 14224223
+[savefile] "/home/cgomes/repos/cgomes_repo/final_version_switch/filters/testbench_route_table.gtkw"
+[timestart] 0
+[size] 1268 951
+[pos] -1871 -89
+*-24.000000 939160000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_switch.
+[treeopen] tb_switch.top_module.
+[sst_width] 214
+[signals_width] 358
+[sst_expanded] 1
+[sst_vpaned_height] 579
+@28
+tb_switch.top_module.clk
+tb_switch.top_module.o_ready
+tb_switch.top_module.i_valid
+tb_switch.top_module.i_last
+tb_switch.top_module.i_ready
+tb_switch.top_module.o_valid
+tb_switch.top_module.o_last
+tb_switch.top_module.reset
+@200
+-
+@22
+tb_switch.top_module.i_data[7:0]
+tb_switch.top_module.route_table_module.i_ports[4:0]
+tb_switch.top_module.route_table_module.i_flag[7:0]
+tb_switch.top_module.route_table_module.i_seqnum[31:0]
+tb_switch.top_module.route_table_module.i_source_address[15:0]
+tb_switch.top_module.route_table_module.i_destination_address[15:0]
+tb_switch.top_module.route_table_module.o_expected_seqnum[31:0]
+@29
+tb_switch.top_module.route_table_module.o_seqnum_error
+@200
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0

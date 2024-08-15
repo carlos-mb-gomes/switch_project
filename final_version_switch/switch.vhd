@@ -118,12 +118,12 @@ architecture arch_switch of switch is
         i_start_validation_from_header        : in std_logic;
         i_start_validation_from_payload       : in std_logic;
 
-        i_o_ready                             : in std_logic;
+        i_valid                               : in std_logic;
         i_ready                               : in std_logic;
         i_sum_payload                         : in unsigned(31 downto 0)         := x"00000000";
         i_checksum                            : in unsigned(31 downto 0)         := x"00000000";
         i_sum_without_checksum_without_payload: in unsigned(31 downto 0)         := x"00000000";
-        o_waited_checksum                     : out std_logic_vector(15 downto 0):= x"0000";
+        o_expect_checksum                     : out std_logic_vector(15 downto 0):= x"0000";
         o_checksum_error                      : out std_logic                    := '0';
 
         i_packet_length                       : in std_logic_vector(15 downto 0) := x"0000"; 
@@ -230,12 +230,12 @@ begin
         i_start_validation_from_header         => w_start_validation_from_header,
         i_start_validation_from_payload        => w_start_validation_from_payload,
         i_ready                                => i_ready,
-        i_o_ready                              => output_ready_reg,
+        i_valid                                => i_valid,
         -- checksum error
         i_sum_payload                          => w_sum_payload,
         i_checksum                             => w_checksum_32bits,
         i_sum_without_checksum_without_payload => w_sum_without_checksum_without_payload,    
-        o_waited_checksum                      => w_expected_checksum,
+        o_expect_checksum                      => w_expected_checksum,
         o_checksum_error                       => w_checksum_error,
         -- payload length error
         i_packet_length                        => w_packet_length, 
@@ -295,9 +295,8 @@ begin
     process(clk)
     begin
         if rising_edge(clk) then
-           output_ready_reg                    <= output_ready_next;
-           start_output_reg               <= start_output_next;
-
+           output_ready_reg <= output_ready_next;
+           start_output_reg <= start_output_next;
         end if;
     end process;
 
@@ -319,9 +318,9 @@ begin
         end if;
     end process;
 
-    o_ready               <= output_ready_reg;
-    o_valid               <= w_output_valid;
-    o_last                <= w_output_last;
+    o_ready <= output_ready_reg;
+    o_valid <= w_output_valid;
+    o_last  <= w_output_last;
 
 end arch_switch;
 

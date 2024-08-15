@@ -5,11 +5,11 @@ use ieee.numeric_std.all;
 entity header is
     Port (
         -- signal for condition states
-        i_last                                  : in std_logic;
-        i_valid                                 : in std_logic;
-        
         clk                                     : in std_logic;
         reset                                   : in std_logic;
+        
+        i_last                                  : in std_logic;
+        i_valid                                 : in std_logic;
         
         i_byte                                  : in std_logic_vector(7 downto 0);
         
@@ -59,7 +59,7 @@ begin
     begin
         if reset = '1' then
             header_state_reg        <= IDLE;
-            
+            -- não é necessário resetá-los
             packet_length_reg       <= (others => '0');
             checksum_reg            <= (others => '0');
             seqnum_reg              <= (others => '0');
@@ -188,6 +188,7 @@ begin
                     header_state_next <= IDLE;
                 end if;
 
+            when others =>
         end case;
     end process;
 
@@ -244,6 +245,8 @@ begin
                                                             + (w_extended_part(15 downto 0) & unsigned(destination_address_reg));
  
                 checksum_converted_32bits_next <= (w_extended_part(15 downto 0) & unsigned(checksum_reg));
+            
+            when others =>
         end case;  
     end process;
 

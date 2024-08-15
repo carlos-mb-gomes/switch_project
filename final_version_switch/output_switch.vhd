@@ -57,22 +57,20 @@ begin
     State_Atualization: process(clk, reset)
     begin
         if reset = '1' then
-            data_output_state_reg       <= IDLE;
-            internal_counter_reg        <= 0;
-            aux_seqnum_reg            <= (others => '0');
-            aux_checksum_reg          <= (others => '0');
-            aux_packet_length_reg     <= (others => '0');
-            flag_error_reg            <= (others => '0');
-            data_reg                  <= (others => '0');
-            flag_error_to_output_reg     <= (others => '0');
+            data_output_state_reg               <= IDLE;
+            internal_counter_reg                <= 0;
+            aux_seqnum_reg                      <= (others => '0');
+            aux_checksum_reg                    <= (others => '0');
+            aux_packet_length_reg               <= (others => '0');
+            flag_error_reg                      <= (others => '0');
+            data_reg                            <= (others => '0');
+            flag_error_to_output_reg            <= (others => '0');
             destination_address_to_output_reg   <= (others => '0');  
             source_address_to_output_reg        <= (others => '0');
-
 
         end if;
 
         if rising_edge(clk) and reset = '0' then
-
            flag_error_reg                    <= flag_error_next;
            data_output_state_reg             <= data_output_state_next;
            internal_counter_reg              <= internal_counter_next;  
@@ -89,13 +87,11 @@ begin
 
     Flag_Error_Attribution_Logic: process(i_packet_length_error,i_seqnum_error, i_destination_address_error, i_checksum_error)
     begin 
-
         flag_error_next <= flag_error_reg;
 
         if i_start_output = '1' then 
            flag_error_next <= i_packet_length_error & i_seqnum_error & i_checksum_error & i_destination_address_error & i_flag(7) & i_flag(0);
         end if;
-
     end process;
 
 
@@ -104,18 +100,16 @@ begin
     aux_packet_length_reg,i_packet_length,i_expect_packet_length,i_expect_checksum,i_checksum,i_seqnum,i_expect_seqnum,output_valid_reg,w_output_last,
     i_source_address,i_destination_address,destination_address_to_output_reg,source_address_to_output_reg,flag_error_to_output_reg)
     begin
-
-        internal_counter_next           <= internal_counter_reg;
-        data_next                     <= data_reg;
-        aux_packet_length_next        <= aux_packet_length_reg;
-        aux_checksum_next             <= aux_checksum_reg;
-        aux_seqnum_next               <= aux_seqnum_reg;
-        output_valid_next                  <= output_valid_reg;
-        w_output_last                        <= '0';
-        destination_address_to_output_next      <= destination_address_to_output_reg;
-        source_address_to_output_next           <= source_address_to_output_reg;
-        flag_error_to_output_next        <= flag_error_to_output_reg;
-        
+        internal_counter_next               <= internal_counter_reg;
+        aux_packet_length_next              <= aux_packet_length_reg;
+        aux_checksum_next                   <= aux_checksum_reg;
+        aux_seqnum_next                     <= aux_seqnum_reg;
+        output_valid_next                   <= output_valid_reg;
+        w_output_last                       <= '0';
+        data_next                           <= data_reg;
+        destination_address_to_output_next  <= destination_address_to_output_reg;
+        source_address_to_output_next       <= source_address_to_output_reg;
+        flag_error_to_output_next           <= flag_error_to_output_reg;
 
         case data_output_state_reg is
             when IDLE =>
@@ -129,8 +123,8 @@ begin
 
                 destination_address_to_output_next <= i_destination_address;
                 source_address_to_output_next      <= i_source_address;
-                flag_error_to_output_next   <= flag_error_reg;
-                output_valid_next             <= '1';
+                flag_error_to_output_next          <= flag_error_reg;
+                output_valid_next                  <= '1';
 
                 if internal_counter_reg < 4 and i_packet_length_error = '1' then 
                     data_next              <= aux_packet_length_next(31 downto 24);
@@ -153,14 +147,11 @@ begin
                 end if; 
 
                 if (internal_counter_reg = 16 and flag_error_reg(5 downto 3) = "111") 
-                or (internal_counter_reg = 12 and flag_error_reg(5 downto 3) = "110") 
-                or (internal_counter_reg = 8 and flag_error_reg(5 downto 3) = "101") 
-                or (internal_counter_reg = 4 and flag_error_reg(5 downto 3) = "100") 
-                or (internal_counter_reg = 12 and flag_error_reg(5 downto 3) = "011") 
-                or (internal_counter_reg = 8 and flag_error_reg(5 downto 3) = "010") 
-                or (internal_counter_reg = 4 and flag_error_reg(5 downto 3) = "001") 
+                or (internal_counter_reg = 12 and (flag_error_reg(5 downto 3) = "011" or flag_error_reg(5 downto 3) = "110")) 
+                or (internal_counter_reg = 8 and (flag_error_reg(5 downto 3) = "101" or flag_error_reg(5 downto 3) = "010")) 
+                or (internal_counter_reg = 4 and (flag_error_reg(5 downto 3) = "100" or flag_error_reg(5 downto 3) = "001")) 
                 or (internal_counter_reg = 1 and flag_error_reg(5 downto 3) = "000")   then
-                    w_output_last <= '1';
+                    w_output_last     <= '1';
                     output_valid_next <= '0';
                 end if;
 
@@ -173,7 +164,6 @@ begin
     Output_Data_State_Transition_Logic: process(data_output_state_reg,data_reg,internal_counter_reg,aux_seqnum_reg,aux_checksum_reg,
     aux_packet_length_reg,i_packet_length,i_expect_packet_length,i_expect_checksum,i_checksum,i_seqnum,i_expect_seqnum)
     begin
-
         data_output_state_next <= data_output_state_reg;
 
         case data_output_state_reg is
@@ -185,12 +175,9 @@ begin
                 data_output_state_next <= OUTPUT_STATE;
             when OUTPUT_STATE =>
                 if (internal_counter_reg = 16 and flag_error_reg(5 downto 3) = "111") 
-                or (internal_counter_reg = 12 and flag_error_reg(5 downto 3) = "110") 
-                or (internal_counter_reg = 8 and flag_error_reg(5 downto 3) = "101") 
-                or (internal_counter_reg = 4 and flag_error_reg(5 downto 3) = "100") 
-                or (internal_counter_reg = 12 and flag_error_reg(5 downto 3) = "011") 
-                or (internal_counter_reg = 8 and flag_error_reg(5 downto 3) = "010") 
-                or (internal_counter_reg = 4 and flag_error_reg(5 downto 3) = "001") 
+                or (internal_counter_reg = 12 and (flag_error_reg(5 downto 3) = "011" or flag_error_reg(5 downto 3) = "110")) 
+                or (internal_counter_reg = 8 and (flag_error_reg(5 downto 3) = "101" or flag_error_reg(5 downto 3) = "010")) 
+                or (internal_counter_reg = 4 and (flag_error_reg(5 downto 3) = "100" or flag_error_reg(5 downto 3) = "001")) 
                 or (internal_counter_reg = 1 and flag_error_reg(5 downto 3) = "000")   then
                     data_output_state_next <= END_OUTPUT;
                 end if;
@@ -201,13 +188,12 @@ begin
         end case;
     end process;
 
-
-    o_flag_error <= flag_error_to_output_reg;
+    o_flag_error          <= flag_error_to_output_reg;
     o_destination_address <= destination_address_to_output_reg;
-    o_source_address <= source_address_to_output_reg;
-    o_data <= data_reg;
-    o_last <= w_output_last;
-    o_valid <= output_valid_reg;
+    o_source_address      <= source_address_to_output_reg;
+    o_data                <= data_reg;
+    o_last                <= w_output_last;
+    o_valid               <= output_valid_reg;
 
 
 end arch_output_switch;

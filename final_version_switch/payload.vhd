@@ -4,11 +4,11 @@ use ieee.numeric_std.all;
 
 entity payload_field is
     Port (
-        i_last              : in std_logic;
-        i_valid             : in std_logic;
-
         clk                 : in std_logic;
         reset               : in std_logic:= '0';
+
+        i_valid             : in std_logic;
+        i_last              : in std_logic;
 
         i_start_payload     : in std_logic:= '0';
 
@@ -88,7 +88,8 @@ begin
                 end if;
 
             when SUM_PAYLOAD => 
-
+            
+            when others =>
         end case;
     end process;   
     
@@ -132,6 +133,7 @@ begin
                 end if;
                 start_validation_next <= '1';
 
+            when others =>
         end case;
     end process; 
 

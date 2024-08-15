@@ -7,15 +7,16 @@ entity validation is
         clk                                   : in std_logic;
         reset                                 : in std_logic;
 
+        i_valid                               : in std_logic;
+        i_ready                               : in std_logic;
+
         i_start_validation_from_header        : in std_logic;
         i_start_validation_from_payload       : in std_logic;
 
-        i_o_ready                             : in std_logic;
-        i_ready                               : in std_logic;
         i_sum_payload                         : in unsigned(31 downto 0)         := x"00000000";
         i_checksum                            : in unsigned(31 downto 0)         := x"00000000";
         i_sum_without_checksum_without_payload: in unsigned(31 downto 0)         := x"00000000";
-        o_waited_checksum                     : out std_logic_vector(15 downto 0):= x"0000";
+        o_expect_checksum                     : out std_logic_vector(15 downto 0):= x"0000";
         o_checksum_error                      : out std_logic                    := '0';
 
         i_packet_length                       : in std_logic_vector(15 downto 0) := x"0000"; 
@@ -28,8 +29,8 @@ end validation;
 
 architecture arch_validation of validation is
     type t_CHECKSUM_STATE_TYPE is (IDLE,SUM_WITHOUT_CHECKSUM, SUM_ALL_FIELDS, SUM_WITH_CARRY, CHECKING_IF_RESULT_IS_FFFF, CALC_WAITED_CHECKSUM,
-    VALUE_WAITED, END_OF_VALIDATION);
-    type t_PAYLOAD_LENGTH_STATE_TYPE is (IDLE,GET_VALUES,TEST_CONDITION,END_OF_VALIDATION);
+    VALUE_WAITED);
+    type t_PAYLOAD_LENGTH_STATE_TYPE is (IDLE,GET_VALUES,TEST_CONDITION);
     signal checksum_state_reg, checksum_state_next                 : t_CHECKSUM_STATE_TYPE := IDLE;
     signal payload_length_state_reg, payload_length_state_next     : t_PAYLOAD_LENGTH_STATE_TYPE := IDLE;
     signal sum_32bits_reg, sum_32bits_next                         : unsigned(31 downto 0):= x"00000000";
@@ -61,7 +62,6 @@ begin
             expected_packet_length_reg <= (others => '0');
 
             start_output_reg           <= '0';
-        
         end if;
 
         if rising_edge(clk) and reset = '0' then
@@ -121,12 +121,11 @@ begin
                     expected_checksum_next <= not sum_16bits_reg;
                     checksum_error_next <= '1';
 
-                when END_OF_VALIDATION =>
-
+                when others =>
             end case;
     end process;
 
-    Checksum_State_Transition_Logic: process(i_o_ready,i_ready, i_start_validation_from_header,i_start_validation_from_payload, sum_16bits_reg,
+    Checksum_State_Transition_Logic: process(i_valid,i_ready, i_start_validation_from_header,i_start_validation_from_payload, sum_16bits_reg,
     checksum_state_reg,start_output_reg)
     begin
         checksum_state_next <= checksum_state_reg;
@@ -134,7 +133,7 @@ begin
 
         case checksum_state_reg is
             when IDLE =>
-                if i_o_ready = '1' then
+                if i_valid = '1' then
                     start_output_next <= '0';
                 end if;
 
@@ -164,11 +163,9 @@ begin
                 checksum_state_next <= VALUE_WAITED;
 
             when VALUE_WAITED =>
-                checksum_state_next <= END_OF_VALIDATION;
-
-            when END_OF_VALIDATION =>
                 start_output_next <= '1';
 
+            when others =>
         end case;
     end process;
 
@@ -197,9 +194,8 @@ begin
                 else 
                     expected_packet_length_next <=  std_logic_vector(to_unsigned((payload_converted_int_reg + 20 - (payload_converted_int_reg mod 4))/4,16)); 
                 end if;
-                
-            when END_OF_VALIDATION =>
 
+            when others =>
         end case;
     end process;
 
@@ -217,14 +213,12 @@ begin
                 payload_length_state_next <= TEST_CONDITION;
 
             when TEST_CONDITION =>
-                payload_length_state_next <= END_OF_VALIDATION;
             
-            when END_OF_VALIDATION =>
-
+            when others =>
         end case;
     end process;
 
-    o_waited_checksum       <= std_logic_vector(expected_checksum_reg);
+    o_expect_checksum       <= std_logic_vector(expected_checksum_reg);
     o_checksum_error        <= checksum_error_reg;
     o_payload_length_error  <= payload_length_error_reg;
     o_start_output          <= start_output_reg;

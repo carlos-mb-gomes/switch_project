@@ -93,13 +93,11 @@ begin
             when NEW_SEQNUM =>
         
         end case;
-
     end process;
 
     Route_Table_State_Attribution_Logic: process(w_port, i_seqnum, i_source_address, route_table_filled_reg, source_address_reg,seqnum_reg,
      seqnum_if_disconnection_reg,route_table_state_reg)
     begin
-
         source_address_next          <= source_address_reg; 
         seqnum_next                  <= seqnum_reg; 
         seqnum_if_disconnection_next <= seqnum_if_disconnection_reg; 
@@ -137,7 +135,6 @@ begin
     Seqnum_Validation_Attribution_Logic: process(i_seqnum, w_port,route_table_state_reg, seqnum_error_reg, route_table_filled_reg, seqnum_reg,
     seqnum_if_disconnection_reg,expected_seqnum_reg)
     begin
-
         seqnum_error_next    <= seqnum_error_reg;
         expected_seqnum_next <= expected_seqnum_reg;
 
@@ -166,7 +163,6 @@ begin
     Destination_Address_Validation: process(i_flag,i_destination_address,route_table_filled_reg, destination_address_not_found_error_reg,
      source_address_reg)
     begin
-
         destination_address_not_found_error_next <= destination_address_not_found_error_reg;
 
         if (i_flag(0) = '0') and (i_flag(7) = '0') and (route_table_filled_reg = '1') and (i_destination_address /= std_logic_vector(source_address_reg(w_port))) then
