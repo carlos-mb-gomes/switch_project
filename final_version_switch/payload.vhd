@@ -108,25 +108,20 @@ begin
             when PAYLOAD =>
                 if i_start_payload = '1' then
                     payload_next          <= payload_reg(3831 downto 0) & i_byte;
-                    internal_counter_next <= internal_counter_reg + 1;
+                    payload_length_next <= payload_length_reg + 1;
 
-                    if (internal_counter_reg mod 2 = 1) and (i_valid = '1') then
+                    if (to_unsigned(payload_length_reg,480)(0) = '1') and (i_valid = '1') then
                         sum_odd_payload_next <= sum_odd_payload_reg + unsigned(i_byte);
-                    elsif (internal_counter_reg mod 2 = 0) and (i_valid = '1') then
+                    elsif (to_unsigned(payload_length_reg,480)(0) = '0') and (i_valid = '1') then
                         sum_even_payload_next <= sum_even_payload_reg + unsigned(i_byte); 
                     else
                         sum_even_payload_next <= (others =>'0');
                         sum_odd_payload_next  <= (others =>'0');
                     end if;
                 end if;
-                
-            when PAYLOAD_LENGTH =>
-                if i_valid = '0' then
-                    payload_length_next <= internal_counter_reg;
-                end if;
 
             when SUM_PAYLOAD => 
-                if payload_length_reg mod 2 = 0 then
+                if to_unsigned(payload_length_reg,480)(0) = '0' then
                     sum_payload_next <= sum_odd_payload_reg + unsigned(sum_even_payload_reg(23 downto 0) & x"00");
                 else
                     sum_payload_next <= unsigned(sum_odd_payload_reg(23 downto 0) & x"00") + sum_even_payload_reg;

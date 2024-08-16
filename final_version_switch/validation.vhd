@@ -226,6 +226,3 @@ begin
     o_waited_packet_length  <= expected_packet_length_reg;
 
 end arch_validation;
-
-
-

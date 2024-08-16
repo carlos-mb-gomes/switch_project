@@ -42,7 +42,7 @@ architecture arch_switch of switch is
 
     signal w_sum_without_checksum_without_payload   : unsigned(31 downto 0) := x"00000000";
     signal w_checksum_32bits                        : unsigned(31 downto 0) := x"00000000";
-    signal w_start_payload                          : std_logic := '0';
+    signal w_payload_valid                          : std_logic := '0';
     signal w_sum_payload                            : unsigned(31 downto 0) := x"00000000";
     signal w_payload_length                         : integer;
 
@@ -82,11 +82,11 @@ architecture arch_switch of switch is
             o_source_address                        : out std_logic_vector(15 downto 0) := x"0000";
             o_destination_address                   : out std_logic_vector(15 downto 0) := x"0000";
 
-            o_start_payload                         : out std_logic := '0';
+            o_payload_valid                         : out std_logic := '0';
 
             o_sum_without_checksum_without_payload  : out unsigned(31 downto 0) := x"00000000";
             o_checksum_32bits                       : out unsigned(31 downto 0) := x"00000000";
-            o_start_validation                      : out std_logic := '0'
+            o_validation_valid                      : out std_logic := '0'
             );
     end component;
 
@@ -205,13 +205,13 @@ begin
             o_destination_address                   => w_destination_address,
             o_sum_without_checksum_without_payload  => w_sum_without_checksum_without_payload,
             o_checksum_32bits                       => w_checksum_32bits,
-            o_start_payload                         => w_start_payload,
-            o_start_validation                      => w_start_validation_from_header
+            o_payload_valid                         => w_payload_valid,
+            o_validation_valid                      => w_start_validation_from_header
     );
 
     Payload_Module: payload_field
     port map (
-        i_start_payload    => w_start_payload,
+        i_start_payload    => w_payload_valid,
         i_byte             => i_data,
         clk                => clk,
         reset              => reset,
@@ -324,10 +324,3 @@ begin
     o_last  <= w_output_last;
 
 end arch_switch;
-
-
-
-
-
-
-

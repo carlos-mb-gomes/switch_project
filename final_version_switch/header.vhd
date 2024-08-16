@@ -22,11 +22,11 @@ entity header is
         o_source_address                        : out std_logic_vector(15 downto 0) := x"0000";
         o_destination_address                   : out std_logic_vector(15 downto 0) := x"0000";
 
-        o_start_payload                         : out std_logic := '0';
+        o_payload_valid                         : out std_logic := '0';
 
         o_sum_without_checksum_without_payload  : out unsigned(31 downto 0) := x"00000000";
         o_checksum_32bits                       : out unsigned(31 downto 0) := x"00000000";
-        o_start_validation                      : out std_logic := '0'
+        o_validation_valid                      : out std_logic := '0'
         );
 end header;
 
@@ -50,8 +50,8 @@ architecture arch_header of header is
     signal dummy_reg, dummy_next                                                             : std_logic_vector(15 downto 0) := x"0000";
     signal source_address_reg, source_address_next                                           : std_logic_vector(15 downto 0) := x"0000";
     signal destination_address_reg, destination_address_next                                 : std_logic_vector(15 downto 0) := x"0000";
-    signal start_payload_reg, start_payload_next                                             : std_logic := '0';
-    signal start_validation_reg, start_validation_next                                       : std_logic := '0';
+    signal r_o_payload_valid_reg, r_o_payload_valid_next                                             : std_logic := '0';
+    signal r_o_validation_valid_reg, r_o_validation_valid_next                                       : std_logic := '0';
 
 begin
     
@@ -71,8 +71,8 @@ begin
 
             internal_counter_reg    <= 0;
             
-            start_payload_reg       <= '0';
-            start_validation_reg    <= '0';
+            r_o_payload_valid_reg       <= '0';
+            r_o_validation_valid_reg    <= '0';
         end if;
 
         if rising_edge(clk) and reset = '0' then
@@ -90,9 +90,9 @@ begin
 
             internal_counter_reg                     <= internal_counter_next;
 
-            start_payload_reg                        <= start_payload_next;
+            r_o_payload_valid_reg                        <= r_o_payload_valid_next;
 
-            start_validation_reg                     <= start_validation_next;
+            r_o_validation_valid_reg                     <= r_o_validation_valid_next;
             sum_without_checksum_without_payload_reg <= sum_without_checksum_without_payload_next;
             checksum_converted_32bits_reg            <= checksum_converted_32bits_next;
 
@@ -162,12 +162,12 @@ begin
     end process;
 
     State_Attribution_Logic: process(i_byte,internal_counter_reg,header_state_reg, packet_length_reg,checksum_reg,seqnum_reg,flag_reg,protocol_reg,dummy_reg,source_address_reg,
-    destination_address_reg,sum_without_checksum_without_payload_reg,checksum_converted_32bits_reg,start_validation_reg,start_payload_reg)
+    destination_address_reg,sum_without_checksum_without_payload_reg,checksum_converted_32bits_reg,r_o_validation_valid_reg,r_o_payload_valid_reg)
     begin
         
         internal_counter_next                      <= internal_counter_reg; 
-        start_validation_next                      <= start_validation_reg;
-        start_payload_next                         <= start_payload_reg;
+        r_o_validation_valid_next                  <= r_o_validation_valid_reg;
+        r_o_payload_valid_next                     <= r_o_payload_valid_reg;
         packet_length_next                         <= packet_length_reg;
         checksum_next                              <= checksum_reg;
         seqnum_next                                <= seqnum_reg;
@@ -236,10 +236,10 @@ begin
                 destination_address_next <= destination_address_reg(7 downto 0) & i_byte;
                 if (internal_counter_reg = c_WIDTH and i_last = '0' and i_valid = '1') then
                     internal_counter_next <= 0;
-                    start_payload_next    <= '1';
+                    r_o_payload_valid_next    <= '1';
                 elsif (internal_counter_reg = c_WIDTH and i_last = '1' and i_valid = '1') then
                     internal_counter_next <= 0;
-                    start_validation_next <= '1';
+                    r_o_validation_valid_next <= '1';
                 end if;
 
             when END_HEADER =>
@@ -268,9 +268,9 @@ begin
 
     o_sum_without_checksum_without_payload  <= sum_without_checksum_without_payload_reg;
     o_checksum_32bits                       <= checksum_converted_32bits_reg;
-    o_start_validation                      <= start_validation_reg;
     
-    o_start_payload                         <= start_payload_reg;
+    o_validation_valid                      <= r_o_validation_valid_reg;
+    o_payload_valid                         <= r_o_payload_valid_reg;
     
 
 end arch_header;
