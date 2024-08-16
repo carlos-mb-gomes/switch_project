@@ -247,6 +247,7 @@ begin
 
                 -- payload
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"48");
+                clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"48");
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"65"); 
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"6C"); 
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"6C"); 
@@ -307,6 +308,7 @@ begin
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"01");
 
                 -- payload
+                clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"21");
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"21");
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"64");
                 clock_cycle_with_data(i_testbench_clk, i_testbench_data , X"6C");

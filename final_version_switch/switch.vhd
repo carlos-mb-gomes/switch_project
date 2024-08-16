@@ -51,8 +51,8 @@ architecture arch_switch of switch is
     signal w_seqnum_error                           : std_logic:= '0';
     signal w_destination_address_error              : std_logic:='0';
     signal w_expected_checksum                      : std_logic_vector(15 downto 0):= (others => '0');
-    signal w_start_validation_from_payload          : std_logic:= '0';
-    signal w_start_validation_from_header           : std_logic:= '0';
+    signal w_validation_valid_from_payload          : std_logic:= '0';
+    signal w_validation_valid_from_header           : std_logic:= '0';
     signal w_start_output                           : std_logic:= '0';
 
     signal w_output_last                            : std_logic := '0';
@@ -98,7 +98,7 @@ architecture arch_switch of switch is
             clk                 : in std_logic;
             reset               : in std_logic:= '0';
 
-            i_start_payload     : in std_logic:= '0';
+            i_payload_valid     : in std_logic:= '0';
 
             i_byte              : in std_logic_vector(7 downto 0);
 
@@ -106,7 +106,7 @@ architecture arch_switch of switch is
             o_payload_length    : out integer;
 
             o_sum_payload       : out unsigned(31 downto 0);
-            o_start_validation  : out std_logic:= '0'
+            o_validation_valid  : out std_logic:= '0'
             );
     end component;
 
@@ -206,12 +206,12 @@ begin
             o_sum_without_checksum_without_payload  => w_sum_without_checksum_without_payload,
             o_checksum_32bits                       => w_checksum_32bits,
             o_payload_valid                         => w_payload_valid,
-            o_validation_valid                      => w_start_validation_from_header
+            o_validation_valid                      => w_validation_valid_from_header
     );
 
     Payload_Module: payload_field
     port map (
-        i_start_payload    => w_payload_valid,
+        i_payload_valid    => w_payload_valid,
         i_byte             => i_data,
         clk                => clk,
         reset              => reset,
@@ -220,15 +220,15 @@ begin
         o_payload          => w_payload,
         o_sum_payload      => w_sum_payload,
         o_payload_length   => w_payload_length,
-        o_start_validation => w_start_validation_from_payload
+        o_validation_valid => w_validation_valid_from_payload
     );
 
     Validation_Module: validation
     port map (
         clk                                    => clk,
         reset                                  => reset,
-        i_start_validation_from_header         => w_start_validation_from_header,
-        i_start_validation_from_payload        => w_start_validation_from_payload,
+        i_start_validation_from_header         => w_validation_valid_from_header,
+        i_start_validation_from_payload        => w_validation_valid_from_payload,
         i_ready                                => i_ready,
         i_valid                                => i_valid,
         -- checksum error

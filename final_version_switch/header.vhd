@@ -60,19 +60,19 @@ begin
         if reset = '1' then
             header_state_reg        <= IDLE;
             -- não é necessário resetá-los
-            packet_length_reg       <= (others => '0');
-            checksum_reg            <= (others => '0');
-            seqnum_reg              <= (others => '0');
-            flag_reg                <= (others => '0');
-            protocol_reg            <= (others => '0');
-            dummy_reg               <= (others => '0');
-            source_address_reg      <= (others => '0');
-            destination_address_reg <= (others => '0');
-
-            internal_counter_reg    <= 0;
+            packet_length_reg         <= (others => '0');
+            checksum_reg              <= (others => '0');
+            seqnum_reg                <= (others => '0');
+            flag_reg                  <= (others => '0');
+            protocol_reg              <= (others => '0');
+            dummy_reg                 <= (others => '0');
+            source_address_reg        <= (others => '0');
+            destination_address_reg   <= (others => '0');
+  
+            internal_counter_reg      <= 0;
             
-            r_o_payload_valid_reg       <= '0';
-            r_o_validation_valid_reg    <= '0';
+            r_o_payload_valid_reg     <= '0';
+            r_o_validation_valid_reg  <= '0';
         end if;
 
         if rising_edge(clk) and reset = '0' then
@@ -90,9 +90,9 @@ begin
 
             internal_counter_reg                     <= internal_counter_next;
 
-            r_o_payload_valid_reg                        <= r_o_payload_valid_next;
+            r_o_payload_valid_reg                    <= r_o_payload_valid_next;
+            r_o_validation_valid_reg                 <= r_o_validation_valid_next;
 
-            r_o_validation_valid_reg                     <= r_o_validation_valid_next;
             sum_without_checksum_without_payload_reg <= sum_without_checksum_without_payload_next;
             checksum_converted_32bits_reg            <= checksum_converted_32bits_next;
 
